@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TempPage extends StatefulWidget {
-  const TempPage({ Key? key }) : super(key: key);
+  const TempPage({Key? key}) : super(key: key);
 
   @override
   TempPageState createState() => TempPageState();

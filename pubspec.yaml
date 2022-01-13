@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   bloc: ^8.0.2
+  equatable: ^2.0.3
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
@@ -15,8 +16,8 @@ dependencies:
     sdk: flutter
   gap: ^2.0.0
   google_fonts: ^2.1.0
-  equatable: ^2.0.3
   intl: ^0.17.0
+  
 
 dev_dependencies:
   bloc_test: ^9.0.2
