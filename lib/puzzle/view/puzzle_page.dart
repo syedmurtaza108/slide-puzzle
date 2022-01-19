@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
@@ -76,22 +77,32 @@ class _Puzzle extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         return Stack(
+          alignment: Alignment.center,
           children: [
-            theme.layoutDelegate.backgroundBuilder(state),
-            SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
+            SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: theme.layoutDelegate.backgroundBuilder(state),
+            ),
+            SafeArea(
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Lottie.asset(
+                  'assets/animations/squid_game.json',
+                  fit: BoxFit.cover,
+                  height: 300,
                 ),
-                child: Column(
-                  children: const [
-                    _PuzzleHeader(
-                      key: Key('puzzle_header'),
-                    ),
-                    _PuzzleSections(
-                      key: Key('puzzle_sections'),
-                    ),
-                  ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 300),
+              child: SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight,
+                  ),
+                  child: const _PuzzleSections(
+                    key: Key('puzzle_sections'),
+                  ),
                 ),
               ),
             ),
@@ -180,20 +191,20 @@ class _PuzzleSections extends StatelessWidget {
     return ResponsiveLayoutBuilder(
       small: (context, child) => Column(
         children: [
-          theme.layoutDelegate.startSectionBuilder(state),
+          // theme.layoutDelegate.startSectionBuilder(state),
           const PuzzleBoard(),
           theme.layoutDelegate.endSectionBuilder(state),
         ],
       ),
       medium: (context, child) => Column(
         children: [
-          theme.layoutDelegate.startSectionBuilder(state),
+          // theme.layoutDelegate.startSectionBuilder(state),
           const PuzzleBoard(),
           theme.layoutDelegate.endSectionBuilder(state),
         ],
       ),
       large: (context, child) => Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: theme.layoutDelegate.startSectionBuilder(state),

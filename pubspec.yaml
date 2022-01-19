@@ -17,6 +17,7 @@ dependencies:
   gap: ^2.0.0
   google_fonts: ^2.1.0
   intl: ^0.17.0
+  lottie: ^1.2.1
   shimmer: ^2.0.0
   
 
@@ -32,6 +33,7 @@ flutter:
   generate: true
   assets:
     - assets/images/
+    - assets/animations/
   fonts:
     - family: GoogleSans
       fonts:
