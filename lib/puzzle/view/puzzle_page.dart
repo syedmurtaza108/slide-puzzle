@@ -17,6 +17,8 @@ class PuzzlePage extends StatelessWidget {
   /// {@macro puzzle_page}
   const PuzzlePage({Key? key}) : super(key: key);
 
+  static const route = 'puzzle';
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -97,8 +99,8 @@ class _Puzzle extends StatelessWidget {
               padding: const EdgeInsets.only(top: 300),
               child: SingleChildScrollView(
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: constraints.maxHeight,
+                  constraints: const BoxConstraints(
+                    minHeight: 300,
                   ),
                   child: const _PuzzleSections(
                     key: Key('puzzle_sections'),

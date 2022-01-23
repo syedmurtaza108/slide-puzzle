@@ -9,6 +9,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:very_good_slide_puzzle/app/splash_page.dart';
 import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 
@@ -58,7 +59,21 @@ class _AppState extends State<App> {
         GlobalMaterialLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const PuzzlePage(),
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case SplashPage.route:
+            return MaterialPageRoute<void>(
+              builder: (context) => const SplashPage(),
+              settings: settings,
+            );
+          case PuzzlePage.route:
+            return MaterialPageRoute<void>(
+              builder: (context) => const PuzzlePage(),
+              settings: settings,
+            );
+        }
+      },
+      initialRoute: SplashPage.route,
     );
   }
 }
