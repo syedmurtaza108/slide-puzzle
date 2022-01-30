@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lottie/lottie.dart';
 import 'package:very_good_slide_puzzle/colors/colors.dart';
-import 'package:very_good_slide_puzzle/l10n/l10n.dart';
-import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
+import 'package:very_good_slide_puzzle/introduction/introduction_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -69,15 +67,14 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
             AnimatedOpacity(
               opacity: _visible ? 1 : 0,
               duration: const Duration(milliseconds: 500),
-              child: Text(
-                context.l10n.puzzleChallengeTitle,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: const Text(
+                'Puzzle Challenge',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              onEnd: () => Navigator.of(context).pushNamed(PuzzlePage.route),
+              onEnd: () => Navigator.of(context).pushNamed(
+                IntroductionAnimationScreen.route,
+              ),
             ),
           ],
         ),

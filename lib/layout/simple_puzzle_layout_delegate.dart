@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:very_good_slide_puzzle/colors/colors.dart';
-import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
@@ -204,9 +202,7 @@ class SimplePuzzleTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PuzzleTitle(
-      title: status == PuzzleStatus.complete
-          ? context.l10n.puzzleCompleted
-          : context.l10n.puzzleChallengeTitle,
+      title: status == PuzzleStatus.complete ? 'Completed' : 'Puzzle Challenge',
     );
   }
 }
@@ -292,16 +288,12 @@ class SimplePuzzleTile extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Shimmer.fromColors(
-            baseColor: PuzzleColors.grey5,
-            highlightColor: tile.value == state.lastTappedTile?.value
-                ? Colors.blue
-                : PuzzleColors.grey5,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(8),
-              ),
+          Container(
+            decoration: BoxDecoration(
+              color: tile.value == state.lastTappedTile?.value
+                  ? Colors.blue
+                  : PuzzleColors.grey5,
+              borderRadius: BorderRadius.circular(8),
             ),
           ),
           Text(
@@ -339,7 +331,7 @@ class SimplePuzzleShuffleButton extends StatelessWidget {
             height: 17,
           ),
           const Gap(10),
-          Text(context.l10n.puzzleShuffle),
+          const Text('Suffle'),
         ],
       ),
     );

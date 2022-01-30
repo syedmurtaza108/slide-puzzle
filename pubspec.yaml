@@ -13,13 +13,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
-  flutter_localizations:
-    sdk: flutter
   gap: ^2.0.0
   google_fonts: ^2.1.0
   intl: ^0.17.0
   lottie: ^1.2.1
-  shimmer: ^2.0.0
   
 
 dev_dependencies:
@@ -31,7 +28,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  generate: true
   assets:
     - assets/images/
     - assets/animations/

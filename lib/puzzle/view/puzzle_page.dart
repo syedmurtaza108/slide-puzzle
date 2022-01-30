@@ -115,6 +115,7 @@ class _Puzzle extends StatelessWidget {
   }
 }
 
+// ignore: unused_element
 class _PuzzleHeader extends StatelessWidget {
   const _PuzzleHeader({Key? key}) : super(key: key);
 
