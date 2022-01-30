@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:very_good_slide_puzzle/colors/colors.dart';
 import 'package:very_good_slide_puzzle/introduction/introduction_page.dart';
+import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -73,7 +74,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                 textAlign: TextAlign.center,
               ),
               onEnd: () => Navigator.of(context).pushNamed(
-                IntroductionAnimationScreen.route,
+                // IntroductionAnimationScreen.route,
+                PuzzlePage.route,
               ),
             ),
           ],

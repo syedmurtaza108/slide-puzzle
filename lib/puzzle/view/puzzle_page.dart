@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:very_good_slide_puzzle/colors/colors.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
@@ -68,8 +69,24 @@ class PuzzleView extends StatelessWidget {
   }
 }
 
-class _Puzzle extends StatelessWidget {
+class _Puzzle extends StatefulWidget {
   const _Puzzle({Key? key}) : super(key: key);
+
+  @override
+  State<_Puzzle> createState() => __PuzzleState();
+}
+
+class __PuzzleState extends State<_Puzzle> with TickerProviderStateMixin {
+  AnimationController? animationController;
+
+  @override
+  void initState() {
+    animationController = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,10 +105,18 @@ class _Puzzle extends StatelessWidget {
             SafeArea(
               child: Align(
                 alignment: Alignment.topCenter,
-                child: Lottie.asset(
-                  'assets/animations/squid_game.json',
-                  fit: BoxFit.cover,
-                  height: 300,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    const CircularProgressIndicator(
+                      color: PuzzleColors.primary1,
+                    ),
+                    Lottie.asset(
+                      'assets/animations/squid_game.json',
+                      fit: BoxFit.cover,
+                      height: 300,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -222,12 +247,25 @@ class _PuzzleSections extends StatelessWidget {
   }
 }
 
-/// {@template puzzle_board}
-/// Displays the board of the puzzle.
-/// {@endtemplate}
-class PuzzleBoard extends StatelessWidget {
-  /// {@macro puzzle_board}
+class PuzzleBoard extends StatefulWidget {
   const PuzzleBoard({Key? key}) : super(key: key);
+
+  @override
+  State<PuzzleBoard> createState() => _PuzzleBoardState();
+}
+
+class _PuzzleBoardState extends State<PuzzleBoard>
+    with TickerProviderStateMixin {
+  late final AnimationController animationController;
+
+  @override
+  void initState() {
+    animationController = AnimationController(
+      duration: const Duration(seconds: 5),
+      vsync: this,
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -245,14 +283,29 @@ class PuzzleBoard extends StatelessWidget {
       },
       child: theme.layoutDelegate.boardBuilder(
         size,
-        puzzle.tiles
-            .map(
-              (tile) => _PuzzleTile(
-                key: Key('puzzle_tile_${tile.value.toString()}'),
-                tile: tile,
+        List<Widget>.generate(
+          size * size,
+          (int index) {
+            final animation = Tween<double>(begin: 0, end: 1).animate(
+              CurvedAnimation(
+                parent: animationController,
+                curve: Interval(
+                  (1 / (size * size)) * index,
+                  1,
+                  curve: Curves.fastOutSlowIn,
+                ),
               ),
-            )
-            .toList(),
+            );
+            animationController.forward();
+            final tile = puzzle.tiles[index];
+            return _PuzzleTile(
+              key: Key('puzzle_tile_${tile.value.toString()}'),
+              tile: tile,
+              animation: animation,
+              animationController: animationController,
+            );
+          },
+        ),
       ),
     );
   }
@@ -260,12 +313,17 @@ class PuzzleBoard extends StatelessWidget {
 
 class _PuzzleTile extends StatelessWidget {
   const _PuzzleTile({
-    Key? key,
     required this.tile,
+    required this.animation,
+    required this.animationController,
+    Key? key,
   }) : super(key: key);
 
   /// The tile to be displayed.
   final Tile tile;
+
+  final AnimationController animationController;
+  final Animation<double> animation;
 
   @override
   Widget build(BuildContext context) {
@@ -274,6 +332,11 @@ class _PuzzleTile extends StatelessWidget {
 
     return tile.isWhitespace
         ? theme.layoutDelegate.whitespaceTileBuilder()
-        : theme.layoutDelegate.tileBuilder(tile, state);
+        : theme.layoutDelegate.tileBuilder(
+            tile,
+            state,
+            animationController,
+            animation,
+          );
   }
 }

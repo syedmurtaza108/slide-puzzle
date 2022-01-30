@@ -104,25 +104,36 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   }
 
   @override
-  Widget tileBuilder(Tile tile, PuzzleState state) {
+  Widget tileBuilder(
+    Tile tile,
+    PuzzleState state,
+    AnimationController animationController,
+    Animation<double> animation,
+  ) {
     return ResponsiveLayoutBuilder(
       small: (_, __) => SimplePuzzleTile(
         key: Key('simple_puzzle_tile_${tile.value}_small'),
         tile: tile,
         tileFontSize: _TileFontSize.small,
         state: state,
+        animation: animation,
+        animationController: animationController,
       ),
       medium: (_, __) => SimplePuzzleTile(
         key: Key('simple_puzzle_tile_${tile.value}_medium'),
         tile: tile,
         tileFontSize: _TileFontSize.medium,
         state: state,
+        animation: animation,
+        animationController: animationController,
       ),
       large: (_, __) => SimplePuzzleTile(
         key: Key('simple_puzzle_tile_${tile.value}_large'),
         tile: tile,
         tileFontSize: _TileFontSize.large,
         state: state,
+        animation: animation,
+        animationController: animationController,
       ),
     );
   }
@@ -268,6 +279,8 @@ class SimplePuzzleTile extends StatelessWidget {
     required this.tile,
     required this.tileFontSize,
     required this.state,
+    required this.animationController,
+    required this.animation,
   }) : super(key: key);
 
   /// The tile to be displayed.
@@ -279,30 +292,43 @@ class SimplePuzzleTile extends StatelessWidget {
   /// The state of the puzzle.
   final PuzzleState state;
 
+  final AnimationController animationController;
+  final Animation<double> animation;
+
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: state.puzzleStatus == PuzzleStatus.incomplete
-          ? () => context.read<PuzzleBloc>().add(TileTapped(tile))
-          : null,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: tile.value == state.lastTappedTile?.value
-                  ? Colors.blue
-                  : PuzzleColors.grey5,
-              borderRadius: BorderRadius.circular(8),
+    return AnimatedBuilder(
+      animation: animationController,
+      builder: (BuildContext context, Widget? child) => FadeTransition(
+        opacity: animation,
+        child: Transform(
+          transform:
+              Matrix4.translationValues(0, 50 * (1.0 - animation.value), 0),
+          child: InkWell(
+            onTap: state.puzzleStatus == PuzzleStatus.incomplete
+                ? () => context.read<PuzzleBloc>().add(TileTapped(tile))
+                : null,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: tile.value == state.lastTappedTile?.value
+                        ? Colors.blue
+                        : PuzzleColors.grey5,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                Text(
+                  tile.value.toString(),
+                  style: PuzzleTextStyle.headline2.copyWith(
+                    fontSize: tileFontSize,
+                  ),
+                ),
+              ],
             ),
           ),
-          Text(
-            tile.value.toString(),
-            style: PuzzleTextStyle.headline2.copyWith(
-              fontSize: tileFontSize,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

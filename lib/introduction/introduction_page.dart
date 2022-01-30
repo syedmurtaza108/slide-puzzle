@@ -94,6 +94,7 @@ class _IntroductionAnimationScreenState
   }
 
   void _startGame() {
-    Navigator.of(context).pushNamed(PuzzlePage.route);
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(PuzzlePage.route, (_) => false);
   }
 }
